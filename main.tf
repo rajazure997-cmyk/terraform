@@ -27,18 +27,19 @@ provider "azuread" {}
 
 # --- Data Source (FIX for tenant_id) ---
 
-# Get the Tenant ID of the identity running Terraform
+# This data source retrieves the tenant ID of the identity running Terraform
 data "azuread_client_config" "current" {}
 
 
-# --- Local Variables (Role ID FIX for 404 Error) ---
+# --- Local Variables (Role ID Fix) ---
 
 locals {
-  # FIX: Prepending "/roleTemplates/" to the GUIDs to ensure the API finds the resource.
+  # This section replaces the unsupported data "azuread_directory_role" lookup.
+  # We use the fixed Template ID (GUID) for built-in Entra ID roles.
   directory_role_template_ids = {
-    "Global Reader"        = "/roleTemplates/f2ef992c-3afb-46b0-b747-50523e20e9a7" # Corrected path
-    "User Administrator"   = "/roleTemplates/fe930be7-5e62-47db-91af-98c3a49a38b1" # Corrected path
-    "Global Administrator" = "/roleTemplates/62e90394-69f5-4237-9190-012177145e10" # Corrected path
+    "Global Reader"        = "f2ef992c-3afb-46b0-b747-50523e20e9a7" # Template ID for Global Reader
+    "User Administrator"   = "fe930be7-5e62-47db-91af-98c3a49a38b1" # Template ID for User Administrator
+    "Global Administrator" = "62e90394-69f5-4237-9190-012177145e10" # Template ID for Global Administrator
     # Add other built-in roles here as needed
   }
 }
@@ -71,7 +72,7 @@ resource "azuread_user" "new_user" {
 
 # --- STEP 3: Assign the Directory Role to the New User ---
 resource "azuread_directory_role_assignment" "user_role_assignment" {
-  # The ID of the role template - NOW REFERENCES THE FULL API PATH
+  # The ID of the role template - REFERENCED VIA THE LOCAL VARIABLE
   role_id             = lookup(local.directory_role_template_ids, var.directory_role_name)
 
   # The Object ID of the newly created user (the principal)
