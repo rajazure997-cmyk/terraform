@@ -25,6 +25,12 @@ provider "azurerm" {
 provider "azuread" {} 
 
 
+# --- Data Source (FIX for tenant_id) ---
+
+# This data source retrieves the tenant ID of the identity running Terraform
+data "azuread_client_config" "current" {}
+
+
 # --- Local Variables (Role ID Fix) ---
 
 locals {
@@ -64,24 +70,16 @@ resource "azuread_user" "new_user" {
   account_enabled     = true 
 }
 
-# --- STEP 2: Lookup the Directory Role (REMOVED and replaced by locals) ---
-/*
-The following block was removed because it is invalid in current azuread provider versions:
-data "azuread_directory_role" "target_role" {
-  display_name = var.directory_role_name
-}
-*/
-
 # --- STEP 3: Assign the Directory Role to the New User ---
 resource "azuread_directory_role_assignment" "user_role_assignment" {
-  # The ID of the role template - NOW REFERENCED VIA THE LOCAL VARIABLE
+  # The ID of the role template - REFERENCED VIA THE LOCAL VARIABLE
   role_id             = lookup(local.directory_role_template_ids, var.directory_role_name)
 
   # The Object ID of the newly created user (the principal)
   principal_object_id = azuread_user.new_user.object_id
 
-  # The scope is the entire Entra ID tenant
-  directory_scope_id  = azuread_user.new_user.tenant_id
+  # FIX: Reference the Tenant ID from the data source
+  directory_scope_id  = data.azuread_client_config.current.tenant_id
   
   # Ensure the role name provided is valid against our local map
   lifecycle {
