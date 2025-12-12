@@ -14,7 +14,7 @@ variable "rglocation" {
 variable "new_user_upn" {
   type        = string
   description = "The User Principal Name (email) for the new user."
-  default     = "new.user.terraform@yourdomain.com"
+  default     = "mansoorshaik7853@gmail.com"
 }
 
 variable "new_user_display_name" {
