@@ -1,1 +1,2 @@
-azure_subscription_id = "4edf8b82-34bd-4aa2-a2f3-9fdb7b1df5ad"
+rgname = "Newterraform"
+rglocation = "east us"
