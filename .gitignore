@@ -1,0 +1,6 @@
+# Exclude Terraform dependencies
+.terraform/
+# Exclude state files
+*.tfstate
+*.tfstate.*
+.terraform.lock.hcl
