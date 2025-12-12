@@ -1,15 +1,21 @@
 # --- Azure Resource Group Variables ---
 
 variable "rgname" {
-    type = string
+    type        = string
     description = "The name for the Azure Resource Group."
-    default = "newone-rg"
+    default     = "newone-rg"
 }
 
 variable "rglocation" {
-    type = string
-    description = "The Azure region/location for the Resource Group."
-    default = "eastus" 
+    type        = string
+    description = "The Azure region/location for the Resource Group (e.g., eastus, westus2)."
+    default     = "eastus" 
+    
+    validation {
+      # Simple check: Location should not be empty
+      condition     = length(var.rglocation) > 0
+      error_message = "The Resource Group location cannot be empty."
+    }
 }
 
 # --- Entra ID User Variables ---
@@ -31,12 +37,23 @@ variable "initial_password" {
   type        = string
   description = "The initial password for the new user."
   # The 'sensitive' tag ensures this value is hidden in logs/state.
-  # This value MUST be set in Terraform Cloud variables or via -var.
   sensitive   = true 
+  
+  validation {
+    # Simple check: Password cannot be too short (Azure password policy is stricter)
+    condition     = length(var.initial_password) >= 8
+    error_message = "The initial password must be at least 8 characters long."
+  }
 }
 
 variable "directory_role_name" {
   type        = string
   description = "The display name of the Microsoft Entra ID Directory Role to assign (e.g., 'Global Reader' or 'User Administrator')."
   default     = "Global Reader"
+  
+  validation {
+      # This validation ensures the user provides a role name that exists in the locals map in main.tf
+      condition     = contains(["Global Reader", "User Administrator", "Global Administrator"], var.directory_role_name)
+      error_message = "The provided directory_role_name is not supported by the local map. Choose from: Global Reader, User Administrator, Global Administrator."
+    }
 }
