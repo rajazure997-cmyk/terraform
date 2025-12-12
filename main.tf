@@ -66,24 +66,42 @@ resource "azuread_user" "new_user" {
   account_enabled     = true 
 }
 
-# --- Entra ID Resource: Directory Role Assignment ---
-
-# STEP 2: Assign the Directory Role to the New User
-resource "azuread_directory_role_assignment" "user_role_assignment" {
-  # Role ID (UUID): Look up the GUID from the local map
-  role_id             = lookup(local.directory_role_template_ids, var.directory_role_name)
-
-  # Principal ID: The Object ID of the newly created user
-  principal_object_id = azuread_user.new_user.object_id
-
-  # Scope ID: The Tenant ID retrieved from the data source (FIX for previous error)
-  directory_scope_id  = data.azuread_client_config.current.tenant_id
-  
-  # Ensure the role name provided is valid against our local map
-  lifecycle {
-    precondition {
-      condition     = contains(keys(local.directory_role_template_ids), var.directory_role_name)
-      error_message = "The role name '${var.directory_role_name}' is not a recognized built-in role in the local map. Please check spelling or update the map."
-    }
-  }
+data "azurerm_client_config" "current" {
 }
+
+resource "azurerm_role_assignment" "new_user_rg_reader_role" {
+  # SCOPE: The ID of the Resource Group created in the main.tf
+  scope                = azurerm_resource_group.rg1.id 
+  
+  # ROLE DEFINITION: The Azure RBAC role to grant
+  role_definition_name = "Reader" 
+  
+  # PRINCIPAL ID: The Object ID of the newly created Entra ID user
+  principal_id         = azuread_user.new_user.object_id
+  
+  # DEPENDENCY: Ensures the user is fully created before the Azure RM provider attempts the assignment
+  depends_on = [
+    azuread_user.new_user
+  ]
+}
+# # --- Entra ID Resource: Directory Role Assignment ---
+
+# # STEP 2: Assign the Directory Role to the New User
+# resource "azuread_directory_role_assignment" "user_role_assignment" {
+#   # Role ID (UUID): Look up the GUID from the local map
+#   role_id             = lookup(local.directory_role_template_ids, var.directory_role_name)
+
+#   # Principal ID: The Object ID of the newly created user
+#   principal_object_id = azuread_user.new_user.object_id
+
+#   # Scope ID: The Tenant ID retrieved from the data source (FIX for previous error)
+#   directory_scope_id  = data.azuread_client_config.current.tenant_id
+  
+#   # Ensure the role name provided is valid against our local map
+#   lifecycle {
+#     precondition {
+#       condition     = contains(keys(local.directory_role_template_ids), var.directory_role_name)
+#       error_message = "The role name '${var.directory_role_name}' is not a recognized built-in role in the local map. Please check spelling or update the map."
+#     }
+#   }
+# }
