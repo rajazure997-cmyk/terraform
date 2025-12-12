@@ -13,7 +13,14 @@ output "new_user_upn" {
   value       = azuread_user.new_user.user_principal_name
 }
 
-output "role_assignment_id" {
-  description = "The ID of the Entra ID directory role assignment."
+output "directory_role_assignment_id" {
+  description = "The ID of the Entra ID Directory Role assignment (e.g., Global Reader assignment)."
+  # This output remains unchanged, assuming the resource is in main.tf
   value       = azuread_directory_role_assignment.user_role_assignment.id
+}
+
+output "azure_rbac_role_assignment_id" {
+  description = "The ID of the Azure RBAC role assignment (e.g., Reader role on the Resource Group)."
+  # This line assumes the resource name we used: new_user_rg_reader_role
+  value       = azurerm_role_assignment.new_user_rg_reader_role.id
 }
