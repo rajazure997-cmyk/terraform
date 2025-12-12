@@ -13,22 +13,19 @@ terraform {
 provider "azurerm" {
   resource_provider_registrations = "none" # This is only required when the User, Service Principal, or Identity running Terraform lacks the permissions to register Azure Resource Providers.
   features {}
-  subscription_id = var.azure_subscription_id
-}
-locals {
-  subscription_resource_id = "/subscriptions/${var.azure_subscription_id}"
+#   subscription_id = var.azure_subscription_id
 }
 
 # Create a resource group
-resource "azurerm_resource_group" "example" {
-  name     = "resources-az"
-  location = "West Europe"
+resource "azurerm_resource_group" "rg1" {
+  name     = "${var.rgname}"
+  location = "${var.rglocation}"
 }
 
 # Create a virtual network within the resource group
-resource "azurerm_virtual_network" "example" {
-  name                = "example-network"
-  resource_group_name = azurerm_resource_group.example.name
-  location            = azurerm_resource_group.example.location
-  address_space       = ["10.0.0.0/16"]
-}
+# resource "azurerm_virtual_network" "example" {
+#   name                = "example-network"
+#   resource_group_name = azurerm_resource_group.example.name
+#   location            = azurerm_resource_group.example.location
+#   address_space       = ["10.0.0.0/16"]
+# }

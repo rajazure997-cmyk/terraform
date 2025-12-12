@@ -1,4 +1,11 @@
-variable "azure_subscription_id" {
+variable "rgname"{
     type = string
-    description = "my subscription"
+    description = "used for managing the resource group"
+    default = "newone"
+}
+
+variable "rglocation" {
+    type = string
+    description = "used for selecting location"
+    default = "eastus" 
 }
