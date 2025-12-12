@@ -1,5 +1,4 @@
-# We strongly recommend using the required_providers block to set the
-# Azure Provider source and version being used
+# --- Provider Configuration and Versions ---
 terraform {
   required_providers {
     azurerm = {
@@ -13,9 +12,7 @@ terraform {
   }
 }
 
-# --- Providers Configuration ---
-
-# Configure the Microsoft Azure Provider (for Resource Groups)
+# Configure the Microsoft Azure Provider (for Azure Resources like Resource Group)
 provider "azurerm" {
   resource_provider_registrations = "none"
   features {}
@@ -25,38 +22,39 @@ provider "azurerm" {
 provider "azuread" {} 
 
 
-# --- Data Source (FIX for tenant_id) ---
+# --- Data Source: Retrieve Tenant ID ---
 
-# This data source retrieves the tenant ID of the identity running Terraform
+# This retrieves the Tenant ID of the identity running Terraform, 
+# which is needed for the directory_scope_id.
 data "azuread_client_config" "current" {}
 
 
-# --- Local Variables (Role ID Fix) ---
+# --- Local Variables: Directory Role Template ID Lookup ---
 
 locals {
-  # This section replaces the unsupported data "azuread_directory_role" lookup.
+  # This block replaces the unsupported data source lookup for directory roles.
   # We use the fixed Template ID (GUID) for built-in Entra ID roles.
   directory_role_template_ids = {
-    "Global Reader"        = "f2ef992c-3afb-46b0-b747-50523e20e9a7" # Template ID for Global Reader
-    "User Administrator"   = "fe930be7-5e62-47db-91af-98c3a49a38b1" # Template ID for User Administrator
-    "Global Administrator" = "62e90394-69f5-4237-9190-012177145e10" # Template ID for Global Administrator
+    "Global Reader"        = "f2ef992c-3afb-46b0-b747-50523e20e9a7" 
+    "User Administrator"   = "fe930be7-5e62-47db-91af-98c3a49a38b1" 
+    "Global Administrator" = "62e90394-69f5-4237-9190-012177145e10"
     # Add other built-in roles here as needed
   }
 }
 
 
-# --- Azure Resource Group ---
+# --- Azure Resource: Resource Group ---
 
-# Create a resource group
+# Creates the Azure Resource Group
 resource "azurerm_resource_group" "rg1" {
   name     = var.rgname
   location = var.rglocation
 }
 
 
-# --- Entra ID Resources ---
+# --- Entra ID Resource: User Account ---
 
-# --- STEP 1: Create the User Account ---
+# STEP 1: Create the new User Account in Entra ID
 resource "azuread_user" "new_user" {
   user_principal_name = var.new_user_upn
   display_name        = var.new_user_display_name
@@ -65,20 +63,20 @@ resource "azuread_user" "new_user" {
   # Set initial login credentials
   password            = var.initial_password
   force_password_change = true
-  
-  # Account must be enabled to be assigned a role
   account_enabled     = true 
 }
 
-# --- STEP 3: Assign the Directory Role to the New User ---
+# --- Entra ID Resource: Directory Role Assignment ---
+
+# STEP 2: Assign the Directory Role to the New User
 resource "azuread_directory_role_assignment" "user_role_assignment" {
-  # The ID of the role template - REFERENCED VIA THE LOCAL VARIABLE
+  # Role ID (UUID): Look up the GUID from the local map
   role_id             = lookup(local.directory_role_template_ids, var.directory_role_name)
 
-  # The Object ID of the newly created user (the principal)
+  # Principal ID: The Object ID of the newly created user
   principal_object_id = azuread_user.new_user.object_id
 
-  # FIX: Reference the Tenant ID from the data source
+  # Scope ID: The Tenant ID retrieved from the data source (FIX for previous error)
   directory_scope_id  = data.azuread_client_config.current.tenant_id
   
   # Ensure the role name provided is valid against our local map
