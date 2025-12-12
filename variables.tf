@@ -1,20 +1,24 @@
-variable "rgname"{
+# --- Azure Resource Group Variables ---
+
+variable "rgname" {
     type = string
-    description = "used for managing the resource group"
-    default = "newone"
+    description = "The name for the Azure Resource Group."
+    default = "newone-rg"
 }
 
 variable "rglocation" {
     type = string
-    description = "used for selecting location"
+    description = "The Azure region/location for the Resource Group."
     default = "eastus" 
 }
 
+# --- Entra ID User Variables ---
 
 variable "new_user_upn" {
   type        = string
-  description = "The User Principal Name (email) for the new user."
-  default     = "mansoorshaik7853@rajazure997gmail.onmicrosoft.com"
+  description = "The User Principal Name (UPN) for the new user (e.g., user@verifieddomain.onmicrosoft.com)."
+  # IMPORTANT: The default must use your tenant's actual verified domain.
+  default     = "new.user.terraform@rajazure997gmail.onmicrosoft.com"
 }
 
 variable "new_user_display_name" {
@@ -26,11 +30,13 @@ variable "new_user_display_name" {
 variable "initial_password" {
   type        = string
   description = "The initial password for the new user."
-  sensitive   = true # Ensures the password is not shown in logs
+  # The 'sensitive' tag ensures this value is hidden in logs/state.
+  # This value MUST be set in Terraform Cloud variables or via -var.
+  sensitive   = true 
 }
 
 variable "directory_role_name" {
   type        = string
-  description = "The display name of the Microsoft Entra ID Directory Role to assign."
+  description = "The display name of the Microsoft Entra ID Directory Role to assign (e.g., 'Global Reader' or 'User Administrator')."
   default     = "Global Reader"
 }
