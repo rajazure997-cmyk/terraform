@@ -41,7 +41,7 @@ resource "azuread_group_member" "henry" {
 }
 
 data "azuread_user" "henry" {
-  user_principal_name = "henry@rajazure997gmail.onmicrosoft.com"
+  user_principal_name = var.new_user_upn
 }
 # # --- Local Variables: Directory Role Template ID Lookup ---
 

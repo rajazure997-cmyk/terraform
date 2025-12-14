@@ -24,6 +24,14 @@ variable "rglocation" {
   default     = "remote_access_users"
 }
 
+variable "new_user_upn" {
+    type        = string
+  description = "The User Principal Name (UPN) for the new user (e.g., user@verifieddomain.onmicrosoft.com)."
+  # IMPORTANT: The default must use your tenant's actual verified domain.
+  default     = "henry@rajazure997gmail.onmicrosoft.com"
+  
+}
+
 # --- Entra ID User Variables ---
 
 # variable "new_user_upn" {
