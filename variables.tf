@@ -28,7 +28,7 @@ variable "new_user_upn" {
     type        = string
   description = "The User Principal Name (UPN) for the new user (e.g., user@verifieddomain.onmicrosoft.com)."
   # IMPORTANT: The default must use your tenant's actual verified domain.
-  default     = "henry@rajazure997gmail.onmicrosoft.com"
+  default     = "rajazure997_gmail.com#EXT#@rajazure997gmail.onmicrosoft.com"
   
 }
 
