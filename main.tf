@@ -35,6 +35,11 @@ resource "azuread_group" "new_users" {
   security_enabled = true
 }
 
+resource "azuread_group_member" "henry" {
+  group_object_id  = azuread_group.new_users.object_id
+  member_object_id = data.azuread_client_config.current.object_id
+}
+
 # # --- Local Variables: Directory Role Template ID Lookup ---
 
 # locals {
