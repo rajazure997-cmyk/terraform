@@ -40,6 +40,9 @@ resource "azuread_group_member" "henry" {
   member_object_id = data.azuread_client_config.current.object_id
 }
 
+data "azuread_user" "henry" {
+  user_principal_name = "henry@rajazure997gmail.onmicrosoft.com"
+}
 # # --- Local Variables: Directory Role Template ID Lookup ---
 
 # locals {
