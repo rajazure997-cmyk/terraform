@@ -35,9 +35,9 @@ resource "azuread_group" "new_users" {
   security_enabled = true
 }
 
-resource "azuread_group_member" "henry" {
+resource "azuread_group_member" "henry_remote_acces" {
   group_object_id  = azuread_group.new_users.object_id
-  member_object_id = data.azuread_client_config.current.object_id
+  member_object_id = data.azuread_user.henry.object_id
 }
 
 data "azuread_user" "henry" {
