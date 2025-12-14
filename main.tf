@@ -51,6 +51,7 @@ resource "azurerm_resource_group" "rg1" {
   location = var.rglocation
 }
 
+data "azuread_client_config" "current" {}
 
 # --- Entra ID Resource: User Account ---
 
