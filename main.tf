@@ -37,7 +37,7 @@ resource "azuread_group" "new_users" {
 
 resource "azuread_group_member" "henry_remote_acces" {
   group_object_id  = azuread_group.new_users.object_id
-  member_object_id = data.azuread_user.henry.object_id
+  member_object_id = azuread_user.henry.object_id
 }
 
 data "azuread_user" "henry" {
