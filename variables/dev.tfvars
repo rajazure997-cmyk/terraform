@@ -1,2 +1,5 @@
-rgname = "Newterraform"
-rglocation = "east us"
+rgname = "new-rg-group"
+rglocation = "westus2"
+new_group_display_name = "new-team"
+new_user_upn = "rajazure997_gmail.com#EXT#@rajazure997gmail.onmicrosoft.com"
+role_to_assign = "Global Reader"
