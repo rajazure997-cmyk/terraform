@@ -26,13 +26,13 @@ variable "rglocation" {
 
 variable "new_user_upn" {
     type        = string
-  description = "The User Principal Name (UPN) for the new user (e.g., user@verifieddomain.onmicrosoft.com)."
+    description = "The User Principal Name (UPN) for the new user (e.g., user@verifieddomain.onmicrosoft.com)."
   # IMPORTANT: The default must use your tenant's actual verified domain.
 #   default     = "rajazure997_gmail.com#EXT#@rajazure997gmail.onmicrosoft.com"
   
 }
-variable "role_to_assign" {
-  description = "The name of the Azure built-in role to assign."
-  type        = string
-#   default     = "Global Reader"
-}
+# variable "role_to_assign" {
+#   description = "The name of the Azure built-in role to assign."
+#   type        = string
+# #   default     = "Global Reader"
+# }
