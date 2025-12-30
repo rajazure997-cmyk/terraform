@@ -1,9 +1,12 @@
+# Task 1 Provisioning the entra id roles 
 rgname      = "new-rg-group3"
 rglocation = "westus2"
 
 new_user_upn            = "rajazure997_gmail.com#EXT#@rajazure997gmail.onmicrosoft.com"
 new_group_display_name = "new-users-group"
 
+
+#Registering the applications & adding or delegate API permissions to owners list
 app_display_name = "terraform-clean-app"
 
 # MUST be OBJECT IDs, not email
