@@ -1,6 +1,10 @@
+<<<<<<< HEAD
 # =================================================
 # RESOURCE GROUP
 # =================================================
+=======
+# Task 1 Provisioning the entra id roles 
+>>>>>>> b2b8e87939a062c274bfc64c416c8fd8b0c3be0f
 rgname      = "new-rg-group3"
 rglocation = "westus2"
 
@@ -17,10 +21,16 @@ initial_password       = "TempP@ssw0rd@123!"
 # =================================================
 new_group_display_name = "new-users-group"
 
+<<<<<<< HEAD
 # =================================================
 # APPLICATION DETAILS
 # =================================================
 app_display_name = "terraform-demo-app"
+=======
+
+#Registering the applications & adding or delegate API permissions to owners list
+app_display_name = "terraform-clean-app"
+>>>>>>> b2b8e87939a062c274bfc64c416c8fd8b0c3be0f
 
 # Application owners (UPNs, NOT object IDs)
 app_owners = [
