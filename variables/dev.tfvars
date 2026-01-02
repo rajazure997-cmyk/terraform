@@ -1,25 +1,45 @@
+# =================================================
+# RESOURCE GROUP
+# =================================================
 rgname      = "new-rg-group3"
 rglocation = "westus2"
 
-new_user_upn            = "rajazure997_gmail.com#EXT#@rajazure997gmail.onmicrosoft.com"
+# =================================================
+# USER DETAILS (Entra ID User Creation)
+# =================================================
+new_user_upn           = "external.user1@rajazure997gmail.onmicrosoft.com"
+new_user_display_name  = "External User One"
+new_user_mail_nickname = "externaluser1"
+initial_password       = "TempP@ssw0rd@123!" 
+
+# =================================================
+# GROUP DETAILS
+# =================================================
 new_group_display_name = "new-users-group"
 
-app_display_name = "terraform-clean-app"
+# =================================================
+# APPLICATION DETAILS
+# =================================================
+app_display_name = "terraform-demo-app"
 
-# MUST be OBJECT IDs, not email
+# Application owners (UPNs, NOT object IDs)
 app_owners = [
-  "ad0666a4-558a-410d-9050-4435e9ef8534"
+  "rajazure997_gmail.com#EXT#@rajazure997gmail.onmicrosoft.com"
 ]
 
-# Microsoft Graph → User.Read.All (Application permission)
-api_permissions = [
-  {
-    resource_app_id = "00000003-0000-0000-c000-000000000000"
-    resource_access = [
-      {
-        id   = "df021288-bdef-4463-88db-98f22de89214"
-        type = "Role"
-      }
-    ]
-  }
+# =================================================
+# MICROSOFT GRAPH APPLICATION PERMISSIONS
+# =================================================
+graph_application_permissions = [
+  "User.Read.All",
+  "Directory.Read.All"
+]
+
+# =================================================
+# ENTRA ID DIRECTORY ROLES (Provision / De-Provision)
+# =================================================
+entra_roles = [
+  "Global Reader",
+  # "Application Administrator"
+  "User Administrator"
 ]
