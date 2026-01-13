@@ -76,3 +76,66 @@ variable "entra_roles" {
   type        = list(string)
   default     = []
 }
+
+
+variable "policy_name" {
+  type = string
+}
+
+variable "policy_state" {
+  type    = string
+  default = "enabled"
+}
+
+variable "included_users" {
+  type = list(string)
+}
+
+variable "excluded_users" {
+  type    = list(string)
+  default = []
+}
+
+variable "included_groups" {
+  type    = list(string)
+  default = []
+}
+
+variable "cloud_app_ids" {
+  type = list(string)
+}
+
+variable "sign_in_risk_levels" {
+  type    = list(string)
+  default = []
+}
+
+variable "user_risk_levels" {
+  type    = list(string)
+  default = []
+}
+
+variable "device_platforms" {
+  type    = list(string)
+  default = []
+}
+
+variable "include_locations" {
+  type    = list(string)
+  default = []
+}
+
+variable "exclude_locations" {
+  type    = list(string)
+  default = []
+}
+
+variable "grant_mfa" {
+  type    = bool
+  default = true
+}
+
+variable "block_access" {
+  type    = bool
+  default = false
+}

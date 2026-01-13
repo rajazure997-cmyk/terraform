@@ -95,3 +95,48 @@ resource "azuread_service_principal" "app_sp" {
     for u in data.azuread_user.owners : u.object_id
   ]
 }
+
+
+resource "azuread_conditional_access_policy" "this" {
+  display_name = var.policy_name
+  state        = var.policy_state
+
+  conditions {
+
+    users {
+      included_users  = var.included_users
+      excluded_users  = var.excluded_users
+      included_groups = var.included_groups
+    }
+
+    applications {
+      included_applications = var.cloud_app_ids
+    }
+
+    sign_in_risk_levels = var.sign_in_risk_levels
+    user_risk_levels    = var.user_risk_levels
+
+    platforms {
+      included_platforms = var.device_platforms
+    }
+
+    locations {
+      included_locations = length(var.include_locations) > 0 ? var.include_locations : ["All"]
+      excluded_locations = var.exclude_locations
+    }
+
+    client_app_types = [
+      "browser",
+      "mobileAppsAndDesktopClients"
+    ]
+  }
+
+  grant_controls {
+    operator = "OR"
+
+    built_in_controls = var.block_access ? ["block"] : (
+      var.grant_mfa ? ["mfa"] : []
+    )
+  }
+}
+
