@@ -1,11 +1,11 @@
 # Task 1 Provisioning the entra id roles 
-rgname      = "new-rg-group3"
+#rgname      = "new-rg-group3"
 rglocation = "westus2"
 
 # =================================================
 # USER DETAILS (Entra ID User Creation)
 # =================================================
-new_user_upn           = "external.user1@rajazure997gmail.onmicrosoft.com"
+new_user_upn           = "external.user1@Azure327.onmicrosoft.com"
 new_user_display_name  = "External User One"
 new_user_mail_nickname = "externaluser1"
 initial_password       = "TempP@ssw0rd@123!" 
@@ -21,7 +21,7 @@ app_display_name = "terraform-clean-app"
 
 # Application owners (UPNs, NOT object IDs)
 app_owners = [
-  "rajazure997_gmail.com#EXT#@rajazure997gmail.onmicrosoft.com"
+  "PavithraRachumalla@Azure327.onmicrosoft.com"
 ]
 
 # =================================================
@@ -48,7 +48,7 @@ policy_state = "enabled"
 included_users = ["All"]
 
 excluded_users = [
-  "11111111-aaaa-bbbb-cccc-222222222222" # Break-glass
+   # Break-glass
 ]
 
 cloud_app_ids = ["All"]

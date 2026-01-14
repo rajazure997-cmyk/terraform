@@ -1,10 +1,10 @@
 # =================================================
 # BASIC VARIABLES
 # =================================================
-variable "rgname" {
-  description = "Azure Resource Group name"
-  type        = string
-}
+# variable "rgname" {
+#   description = "Azure Resource Group name"
+#   type        = string
+# }
 
 variable "rglocation" {
   description = "Azure Resource Group location"

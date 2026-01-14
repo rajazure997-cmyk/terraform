@@ -1,7 +1,7 @@
 {
   "version": 4,
   "terraform_version": "1.14.3",
-  "serial": 86,
+  "serial": 63,
   "lineage": "a6c01923-bbeb-cd1f-fd19-eb93dc14c2d9",
   "outputs": {},
   "resources": [
@@ -152,9 +152,9 @@
           "schema_version": 0,
           "attributes": {
             "client_id": "04b07795-8ddb-461a-bbee-02f9e1bf7b46",
-            "id": "8e6c9735-8163-48a9-a19b-80843e8e9c3c-04b07795-8ddb-461a-bbee-02f9e1bf7b46-1f3df15c-0847-401d-880e-fd71d955efe3",
-            "object_id": "1f3df15c-0847-401d-880e-fd71d955efe3",
-            "tenant_id": "8e6c9735-8163-48a9-a19b-80843e8e9c3c",
+            "id": "8aaa2c57-c0d2-4cbe-b925-38c6341de9bf-04b07795-8ddb-461a-bbee-02f9e1bf7b46-ad0666a4-558a-410d-9050-4435e9ef8534",
+            "object_id": "ad0666a4-558a-410d-9050-4435e9ef8534",
+            "tenant_id": "8aaa2c57-c0d2-4cbe-b925-38c6341de9bf",
             "timeouts": null
           },
           "sensitive_attributes": [],
@@ -171,52 +171,92 @@
         {
           "schema_version": 0,
           "attributes": {
-            "id": "roles#amMQCQD6cNZWbLTG2pZDZgcv-6g=",
+            "id": "roles#WmV2Tb1XT_dFS2YeD54sFXovW-E=",
             "object_ids": [
-              "0c8fa750-a5a3-493f-a90d-0d2d06a116d1",
-              "879e6e96-6f40-4755-80a9-cc89e41a0ae4",
-              "c755894f-167c-48d7-9133-cee2b4d597f1",
-              "d5fef75c-921b-48a2-bf7f-610322a28d9a",
-              "fd5ebbb8-9b63-42cb-aaa5-5ccd078cea8d"
+              "0a25376a-03bf-4758-b267-3f9560f29901",
+              "1709dae5-5db1-4677-8850-70386bd2ba9b",
+              "2e091ca4-d708-46ca-8845-ea6d911a1b21",
+              "3372a146-cf6e-4a35-b12c-94392477c22d",
+              "45d3b9ed-dcb8-46b1-bcb5-ca23cde9833a",
+              "62b3743b-1d4e-48a4-9a8d-9f62087c4b23",
+              "6da67fe8-6c16-4729-9729-aaf185b47c09",
+              "d2360aed-df94-49bd-8b1f-d6a8db12541f",
+              "f3bc72dc-97e4-4fd2-a041-4dcdebee73c1",
+              "f4fcc7e1-5f9a-43bb-9cea-72f538b2cb61"
             ],
             "roles": [
               {
-                "description": "Users assigned to this role are added to the local administrators group on Microsoft Entra joined devices.",
-                "display_name": "Azure AD Joined Device Local Administrator",
-                "object_id": "0c8fa750-a5a3-493f-a90d-0d2d06a116d1",
-                "template_id": "9f06204d-73c1-4d4c-880a-6edb90606fd8"
+                "description": "Can read basic directory information. Commonly used to grant directory read access to applications and guests.",
+                "display_name": "Directory Readers",
+                "object_id": "0a25376a-03bf-4758-b267-3f9560f29901",
+                "template_id": "88d8e3e3-8f55-4a1e-953a-9b9898b8876b"
+              },
+              {
+                "description": "Manage all aspects of the Agent Registry service in Microsoft Entra ID",
+                "display_name": "Agent Registry Administrator",
+                "object_id": "1709dae5-5db1-4677-8850-70386bd2ba9b",
+                "template_id": "6b942400-691f-4bf0-9d12-d8a254a2baf5"
+              },
+              {
+                "description": "Can manage role assignments in Microsoft Entra ID, and all aspects of Privileged Identity Management.",
+                "display_name": "Privileged Role Administrator",
+                "object_id": "2e091ca4-d708-46ca-8845-ea6d911a1b21",
+                "template_id": "e8611ab8-c189-46e8-94e1-60213ab1f814"
+              },
+              {
+                "description": "Can read sign-in and audit reports.",
+                "display_name": "Reports Reader",
+                "object_id": "3372a146-cf6e-4a35-b12c-94392477c22d",
+                "template_id": "4a5d8f65-41da-4de4-8968-e035b65339cf"
+              },
+              {
+                "description": "Can read security information and reports in Microsoft Entra ID and Office 365.",
+                "display_name": "Security Reader",
+                "object_id": "45d3b9ed-dcb8-46b1-bcb5-ca23cde9833a",
+                "template_id": "5d6b6bb7-de71-4623-b4af-96380a352509"
+              },
+              {
+                "description": "Manage all aspects of agents in a tenant including identity lifecycle operations for agent blueprints, agent service principals, agent identities, and agentic users.",
+                "display_name": "Agent ID Administrator",
+                "object_id": "62b3743b-1d4e-48a4-9a8d-9f62087c4b23",
+                "template_id": "db506228-d27e-4b7d-95e5-295956d6615f"
+              },
+              {
+                "description": "Can read everything that a Global Administrator can, but not update anything.",
+                "display_name": "Global Reader",
+                "object_id": "6da67fe8-6c16-4729-9729-aaf185b47c09",
+                "template_id": "f2ef992c-3afb-46b9-b7cf-a126ee74c451"
               },
               {
                 "description": "Can manage all aspects of Microsoft Entra ID and Microsoft services that use Microsoft Entra identities.",
                 "display_name": "Global Administrator",
-                "object_id": "879e6e96-6f40-4755-80a9-cc89e41a0ae4",
+                "object_id": "d2360aed-df94-49bd-8b1f-d6a8db12541f",
                 "template_id": "62e90394-69f5-4237-9190-012177145e10"
               },
               {
                 "description": "Can manage all aspects of users and groups, including resetting passwords for limited admins.",
                 "display_name": "User Administrator",
-                "object_id": "c755894f-167c-48d7-9133-cee2b4d597f1",
+                "object_id": "f3bc72dc-97e4-4fd2-a041-4dcdebee73c1",
                 "template_id": "fe930be7-5e62-47db-91af-98c3a49a38b1"
               },
               {
-                "description": "Can read everything that a Global Administrator can, but not update anything.",
-                "display_name": "Global Reader",
-                "object_id": "d5fef75c-921b-48a2-bf7f-610322a28d9a",
-                "template_id": "f2ef992c-3afb-46b9-b7cf-a126ee74c451"
-              },
-              {
-                "description": "Can perform common billing related tasks like updating payment information.",
-                "display_name": "Billing Administrator",
-                "object_id": "fd5ebbb8-9b63-42cb-aaa5-5ccd078cea8d",
-                "template_id": "b0f54661-2d74-4c50-afa3-1ec803f12efe"
+                "description": "Can create and manage all aspects of app registrations and enterprise apps.",
+                "display_name": "Application Administrator",
+                "object_id": "f4fcc7e1-5f9a-43bb-9cea-72f538b2cb61",
+                "template_id": "9b895d92-2cd3-44c7-9d02-a6ac2d5ea5c3"
               }
             ],
             "template_ids": [
-              "9f06204d-73c1-4d4c-880a-6edb90606fd8",
+              "88d8e3e3-8f55-4a1e-953a-9b9898b8876b",
+              "6b942400-691f-4bf0-9d12-d8a254a2baf5",
+              "e8611ab8-c189-46e8-94e1-60213ab1f814",
+              "4a5d8f65-41da-4de4-8968-e035b65339cf",
+              "5d6b6bb7-de71-4623-b4af-96380a352509",
+              "db506228-d27e-4b7d-95e5-295956d6615f",
+              "f2ef992c-3afb-46b9-b7cf-a126ee74c451",
               "62e90394-69f5-4237-9190-012177145e10",
               "fe930be7-5e62-47db-91af-98c3a49a38b1",
-              "f2ef992c-3afb-46b9-b7cf-a126ee74c451",
-              "b0f54661-2d74-4c50-afa3-1ec803f12efe"
+              "9b895d92-2cd3-44c7-9d02-a6ac2d5ea5c3"
             ],
             "timeouts": null
           },
@@ -7468,7 +7508,7 @@
               }
             ],
             "homepage_url": "",
-            "id": "a163ca41-fa0f-4ae5-83f0-a1ac9fb3d752",
+            "id": "28f08f2e-055d-4bca-9fb4-a00231ce4774",
             "login_url": "",
             "logout_url": "",
             "notes": "",
@@ -15584,7 +15624,7 @@
                 "value": "WorkforceIntegration.ReadWrite.All"
               }
             ],
-            "object_id": "a163ca41-fa0f-4ae5-83f0-a1ac9fb3d752",
+            "object_id": "28f08f2e-055d-4bca-9fb4-a00231ce4774",
             "preferred_single_sign_on_mode": "",
             "redirect_uris": [],
             "saml_metadata_url": "",
@@ -15618,36 +15658,34 @@
       "provider": "provider[\"registry.terraform.io/hashicorp/azuread\"]",
       "instances": [
         {
-          "index_key": "PavithraRachumalla@Azure327.onmicrosoft.com",
+          "index_key": "rajazure997_gmail.com#EXT#@rajazure997gmail.onmicrosoft.com",
           "schema_version": 0,
           "attributes": {
             "account_enabled": true,
             "age_group": "",
-            "business_phones": [
-              "8135702700"
-            ],
-            "city": "Aubrey",
+            "business_phones": [],
+            "city": "",
             "company_name": "",
             "consent_provided_for_minor": "",
             "cost_center": null,
             "country": "",
             "creation_type": "",
             "department": "",
-            "display_name": "Pavithra Rachumalla",
+            "display_name": "raj az",
             "division": null,
             "employee_id": "",
             "employee_type": "",
             "external_user_state": "",
             "fax_number": "",
-            "given_name": "Pavithra",
-            "id": "1f3df15c-0847-401d-880e-fd71d955efe3",
+            "given_name": "raj",
+            "id": "ad0666a4-558a-410d-9050-4435e9ef8534",
             "im_addresses": [],
             "job_title": "",
             "mail": "",
-            "mail_nickname": "PavithraRachumalla",
+            "mail_nickname": "rajazure997_gmail.com#EXT#",
             "manager_id": "",
             "mobile_phone": "",
-            "object_id": "1f3df15c-0847-401d-880e-fd71d955efe3",
+            "object_id": "ad0666a4-558a-410d-9050-4435e9ef8534",
             "office_location": "",
             "onpremises_distinguished_name": "",
             "onpremises_domain_name": "",
@@ -15657,18 +15695,18 @@
             "onpremises_sync_enabled": false,
             "onpremises_user_principal_name": "",
             "other_mails": [
-              "pavithra.rachumalla@gmail.com"
+              "rajazure997@gmail.com"
             ],
-            "postal_code": "76227-2721",
+            "postal_code": "",
             "preferred_language": "en",
             "proxy_addresses": [],
             "show_in_address_list": false,
-            "state": "tx",
-            "street_address": "1324 Saddle Ridge Dr",
-            "surname": "Rachumalla",
+            "state": "",
+            "street_address": "",
+            "surname": "az",
             "timeouts": null,
-            "usage_location": "US",
-            "user_principal_name": "PavithraRachumalla@Azure327.onmicrosoft.com",
+            "usage_location": "IN",
+            "user_principal_name": "rajazure997_gmail.com#EXT#@rajazure997gmail.onmicrosoft.com",
             "user_type": "Member"
           },
           "sensitive_attributes": [],
@@ -15695,12 +15733,12 @@
             ],
             "app_role": [],
             "app_role_ids": {},
-            "application_id": "607b5590-5908-4857-a896-94a2fb8e3c47",
-            "client_id": "607b5590-5908-4857-a896-94a2fb8e3c47",
+            "application_id": "13655941-0a41-4b2b-b713-b50da873ac41",
+            "client_id": "13655941-0a41-4b2b-b713-b50da873ac41",
             "description": "",
             "device_only_auth_enabled": false,
             "disabled_by_microsoft": "\u003cnil\u003e",
-            "display_name": "terraform-clean-app",
+            "display_name": "terraform-demo-app",
             "fallback_public_client_enabled": false,
             "feature_tags": [
               {
@@ -15711,7 +15749,7 @@
               }
             ],
             "group_membership_claims": [],
-            "id": "/applications/89efed9f-7f7e-47eb-9845-879c10485c66",
+            "id": "/applications/2f231f02-d9e2-40f7-9c3f-0638bdecd8ef",
             "identifier_uris": [],
             "logo_image": "",
             "logo_url": "",
@@ -15719,7 +15757,7 @@
             "notes": "",
             "oauth2_permission_scope_ids": {},
             "oauth2_post_response_required": false,
-            "object_id": "89efed9f-7f7e-47eb-9845-879c10485c66",
+            "object_id": "2f231f02-d9e2-40f7-9c3f-0638bdecd8ef",
             "optional_claims": [
               {
                 "access_token": [],
@@ -15728,7 +15766,7 @@
               }
             ],
             "owners": [
-              "1f3df15c-0847-401d-880e-fd71d955efe3"
+              "ad0666a4-558a-410d-9050-4435e9ef8534"
             ],
             "prevent_duplicate_names": false,
             "privacy_statement_url": "",
@@ -15737,7 +15775,7 @@
                 "redirect_uris": []
               }
             ],
-            "publisher_domain": "Azure327.onmicrosoft.com",
+            "publisher_domain": "rajazure997gmail.onmicrosoft.com",
             "required_resource_access": [
               {
                 "resource_access": [
@@ -15802,8 +15840,8 @@
           "attributes": {
             "description": "Can read everything that a Global Administrator can, but not update anything.",
             "display_name": "Global Reader",
-            "id": "d5fef75c-921b-48a2-bf7f-610322a28d9a",
-            "object_id": "d5fef75c-921b-48a2-bf7f-610322a28d9a",
+            "id": "6da67fe8-6c16-4729-9729-aaf185b47c09",
+            "object_id": "6da67fe8-6c16-4729-9729-aaf185b47c09",
             "template_id": "f2ef992c-3afb-46b9-b7cf-a126ee74c451",
             "timeouts": null
           },
@@ -15817,8 +15855,8 @@
           "attributes": {
             "description": "Can manage all aspects of users and groups, including resetting passwords for limited admins.",
             "display_name": "User Administrator",
-            "id": "c755894f-167c-48d7-9133-cee2b4d597f1",
-            "object_id": "c755894f-167c-48d7-9133-cee2b4d597f1",
+            "id": "f3bc72dc-97e4-4fd2-a041-4dcdebee73c1",
+            "object_id": "f3bc72dc-97e4-4fd2-a041-4dcdebee73c1",
             "template_id": "fe930be7-5e62-47db-91af-98c3a49a38b1",
             "timeouts": null
           },
@@ -15842,8 +15880,8 @@
             "app_scope_object_id": "",
             "directory_scope_id": "/",
             "directory_scope_object_id": "/",
-            "id": "LJnv8vs6uUa3z6Em7nTEUS2Bgk9BQndCkCwTxIDk3CY-1",
-            "principal_object_id": "4f82812d-4241-4277-902c-13c480e4dc26",
+            "id": "LJnv8vs6uUa3z6Em7nTEUXZKhRD9ftNChq2_dYFsGxU-1",
+            "principal_object_id": "10854a76-7efd-42d3-86ad-bf75816c1b15",
             "role_id": "f2ef992c-3afb-46b9-b7cf-a126ee74c451",
             "timeouts": null
           },
@@ -15864,8 +15902,8 @@
             "app_scope_object_id": "",
             "directory_scope_id": "/",
             "directory_scope_object_id": "/",
-            "id": "5wuT_mJe20eRr5jDpJo4sS2Bgk9BQndCkCwTxIDk3CY-1",
-            "principal_object_id": "4f82812d-4241-4277-902c-13c480e4dc26",
+            "id": "5wuT_mJe20eRr5jDpJo4sXZKhRD9ftNChq2_dYFsGxU-1",
+            "principal_object_id": "10854a76-7efd-42d3-86ad-bf75816c1b15",
             "role_id": "fe930be7-5e62-47db-91af-98c3a49a38b1",
             "timeouts": null
           },
@@ -15899,14 +15937,14 @@
             "external_senders_allowed": false,
             "hide_from_address_lists": false,
             "hide_from_outlook_clients": false,
-            "id": "bb31dcb9-aec1-4f71-9658-4c504d4918d3",
+            "id": "f6e73485-306d-4e03-b918-439d50d23883",
             "mail": "",
             "mail_enabled": false,
-            "mail_nickname": "bfd1a8de-b",
+            "mail_nickname": "ade6ee65-d",
             "members": [
-              "4f82812d-4241-4277-902c-13c480e4dc26"
+              "10854a76-7efd-42d3-86ad-bf75816c1b15"
             ],
-            "object_id": "bb31dcb9-aec1-4f71-9658-4c504d4918d3",
+            "object_id": "f6e73485-306d-4e03-b918-439d50d23883",
             "onpremises_domain_name": "",
             "onpremises_group_type": "",
             "onpremises_netbios_name": "",
@@ -15914,7 +15952,7 @@
             "onpremises_security_identifier": "",
             "onpremises_sync_enabled": false,
             "owners": [
-              "1f3df15c-0847-401d-880e-fd71d955efe3"
+              "ad0666a4-558a-410d-9050-4435e9ef8534"
             ],
             "preferred_language": "",
             "prevent_duplicate_names": false,
@@ -15945,9 +15983,9 @@
         {
           "schema_version": 0,
           "attributes": {
-            "group_object_id": "bb31dcb9-aec1-4f71-9658-4c504d4918d3",
-            "id": "bb31dcb9-aec1-4f71-9658-4c504d4918d3/member/4f82812d-4241-4277-902c-13c480e4dc26",
-            "member_object_id": "4f82812d-4241-4277-902c-13c480e4dc26",
+            "group_object_id": "f6e73485-306d-4e03-b918-439d50d23883",
+            "id": "f6e73485-306d-4e03-b918-439d50d23883/member/10854a76-7efd-42d3-86ad-bf75816c1b15",
+            "member_object_id": "10854a76-7efd-42d3-86ad-bf75816c1b15",
             "timeouts": null
           },
           "sensitive_attributes": [],
@@ -15975,11 +16013,11 @@
             "app_role_assignment_required": false,
             "app_role_ids": {},
             "app_roles": [],
-            "application_id": "607b5590-5908-4857-a896-94a2fb8e3c47",
-            "application_tenant_id": "8e6c9735-8163-48a9-a19b-80843e8e9c3c",
-            "client_id": "607b5590-5908-4857-a896-94a2fb8e3c47",
+            "application_id": "13655941-0a41-4b2b-b713-b50da873ac41",
+            "application_tenant_id": "8aaa2c57-c0d2-4cbe-b925-38c6341de9bf",
+            "client_id": "13655941-0a41-4b2b-b713-b50da873ac41",
             "description": "",
-            "display_name": "terraform-clean-app",
+            "display_name": "terraform-demo-app",
             "feature_tags": [
               {
                 "custom_single_sign_on": false,
@@ -15997,16 +16035,16 @@
               }
             ],
             "homepage_url": "",
-            "id": "af005814-0e2a-466b-b38f-dbb0b505afa2",
+            "id": "1d8e281c-ebdd-4c17-a866-63f87309aad5",
             "login_url": "",
             "logout_url": "",
             "notes": "",
             "notification_email_addresses": [],
             "oauth2_permission_scope_ids": {},
             "oauth2_permission_scopes": [],
-            "object_id": "af005814-0e2a-466b-b38f-dbb0b505afa2",
+            "object_id": "1d8e281c-ebdd-4c17-a866-63f87309aad5",
             "owners": [
-              "1f3df15c-0847-401d-880e-fd71d955efe3"
+              "ad0666a4-558a-410d-9050-4435e9ef8534"
             ],
             "preferred_single_sign_on_mode": "",
             "redirect_uris": [],
@@ -16065,14 +16103,14 @@
             "fax_number": "",
             "force_password_change": true,
             "given_name": "",
-            "id": "4f82812d-4241-4277-902c-13c480e4dc26",
+            "id": "10854a76-7efd-42d3-86ad-bf75816c1b15",
             "im_addresses": [],
             "job_title": "",
             "mail": "",
             "mail_nickname": "externaluser1",
             "manager_id": "",
             "mobile_phone": "",
-            "object_id": "4f82812d-4241-4277-902c-13c480e4dc26",
+            "object_id": "10854a76-7efd-42d3-86ad-bf75816c1b15",
             "office_location": "",
             "onpremises_distinguished_name": "",
             "onpremises_domain_name": "",
@@ -16092,7 +16130,7 @@
             "surname": "",
             "timeouts": null,
             "usage_location": "",
-            "user_principal_name": "external.user1@Azure327.onmicrosoft.com",
+            "user_principal_name": "external.user1@rajazure997gmail.onmicrosoft.com",
             "user_type": "Member"
           },
           "sensitive_attributes": [
@@ -16105,6 +16143,28 @@
           ],
           "identity_schema_version": 0,
           "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjozMDAwMDAwMDAwMDAsImRlbGV0ZSI6MzAwMDAwMDAwMDAwLCJyZWFkIjozMDAwMDAwMDAwMDAsInVwZGF0ZSI6MzAwMDAwMDAwMDAwfX0="
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "azurerm_resource_group",
+      "name": "rg2",
+      "provider": "provider[\"registry.terraform.io/hashicorp/azurerm\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "id": "/subscriptions/4edf8b82-34bd-4aa2-a2f3-9fdb7b1df5ad/resourceGroups/new-rg-group3",
+            "location": "westus2",
+            "managed_by": "",
+            "name": "new-rg-group3",
+            "tags": {},
+            "timeouts": null
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjo1NDAwMDAwMDAwMDAwLCJkZWxldGUiOjU0MDAwMDAwMDAwMDAsInJlYWQiOjMwMDAwMDAwMDAwMCwidXBkYXRlIjo1NDAwMDAwMDAwMDAwfX0="
         }
       ]
     }

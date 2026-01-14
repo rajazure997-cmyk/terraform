@@ -24,14 +24,7 @@ resource "azuread_group_member" "user_member" {
   member_object_id = azuread_user.user.object_id
 }
 
-# =================================================
-# Azure Resource Group
-# =================================================
-resource "azurerm_resource_group" "rg2" {
-  name     = var.rgname
-  location = var.rglocation
-}
-
+#
 # =================================================
 # ACTIVATE REQUIRED ENTRA ID ROLES (IDEMPOTENT)
 # =================================================
