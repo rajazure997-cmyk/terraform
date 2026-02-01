@@ -1,0 +1,33 @@
+[
+    {
+      "key": "Jhon-global-reader",
+      "kind": "entra_directory_role",
+      "mode": "active",
+      "role_name": "Global Reader",
+      "principal_object_id": "56ca4c4f-34b6-42d5-8def-22461ecd3df0"
+    },
+    {
+      "key": "Jhon-security-reader",
+      "kind": "entra_directory_role",
+      "mode": "active",
+      "role_name": "Security Reader",
+      "principal_object_id": "56ca4c4f-34b6-42d5-8def-22461ecd3df0"
+    },
+    {
+      "key": "Jhon-user-admin-eligible",
+      "kind": "entra_directory_role",
+      "mode": "eligible",
+      "role_name": "User Administrator",
+      "principal_object_id": "56ca4c4f-34b6-42d5-8def-22461ecd3df0",
+      "justification": "Eligible admin access"
+    },
+    {
+      "key": "Jhon-reports-reader",
+      "kind": "entra_directory_role",
+      "mode": "active",
+      "role_name": "Reports Reader",
+      "principal_object_id": "56ca4c4f-34b6-42d5-8def-22461ecd3df0"
+    }
+    
+  ]
+  
