@@ -1,15 +1,21 @@
-variable "assignments_file" {
-  description = "Path to assignments JSON file"
-  type        = string
-}
+# variable "entra_role_assignments" {
+#   description = "Simple list of Entra ID role assignments"
 
-variable "enable_pim" {
-  type    = bool
-  default = false
-}
+#   type = list(object({
+#     principal_object_id = string
+#     role_name           = string
+#   }))
 
-variable "client_secret" {
-  description = "Azure AD application client secret"
-  type        = string
-  sensitive   = true
+#   default = []
+# }
+
+variable "entra_role_assignments" {
+  description = "Roles mapped per principal"
+
+  type = list(object({
+    principal_object_id = string
+    roles               = list(string)
+  }))
+
+  default = []
 }

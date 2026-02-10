@@ -1,79 +1,44 @@
+# locals {
 
+#   assignments = var.entra_role_assignments
 
-  #################################
-  # Load Assignments JSON Safely
-  #################################
+#   entra_roles_to_activate = distinct([
+#     for a in local.assignments :
+#     a.role_name
+#   ])
+
+#   entra_active = {
+#     for idx, a in local.assignments :
+#     "${a.principal_object_id}-${a.role_name}" => a
+#   }
+
+# }
+
 locals {
-  assignments = jsondecode(file(var.assignments_file))
 
-  #################################
-  # Entra Active Roles
-  #################################
-
-  entra_active = {
-    for a in local.assignments :
-    a.key => a
-    if try(a.kind, "") == "entra_directory_role" &&
-       try(a.mode, "") == "active"
-  }
-
-  #################################
-  # Entra PIM Eligible Roles
-  #################################
-
-  entra_eligible = {
-    for a in local.assignments :
-    a.key => a
-    if try(a.kind, "") == "entra_directory_role" &&
-       try(a.mode, "") == "eligible"
-  }
-
-  #################################
-  # RBAC Active Roles
-  #################################
-
-  rbac_active = {
-    for a in local.assignments :
-    a.key => a
-    if try(a.kind, "") == "rbac" &&
-       try(a.mode, "") == "active"
-  }
-
-  #################################
-  # RBAC PIM Eligible
-  #################################
-
-  rbac_pim_eligible = {
-    for a in local.assignments :
-    a.key => a
-    if try(a.kind, "") == "rbac" &&
-       try(a.mode, "") == "eligible"
-  }
-
-  #################################
-  # RBAC PIM Active
-  #################################
-
-  rbac_pim_active = {
-    for a in local.assignments :
-    a.key => a
-    if try(a.kind, "") == "rbac" &&
-       try(a.mode, "") == "pim_active"
-  }
-
-  #################################
-  # Roles To Activate
-  #################################
+  assignments_flat = flatten([
+    for p in var.entra_role_assignments : [
+      for r in p.roles : {
+        principal_object_id = p.principal_object_id
+        role_name           = r
+      }
+    ]
+  ])
 
   entra_roles_to_activate = distinct([
-    for a in local.assignments :
+    for a in local.assignments_flat :
     a.role_name
-    if try(a.kind, "") == "entra_directory_role"
   ])
+
+  entra_active = {
+    for a in local.assignments_flat :
+    "${a.principal_object_id}-${a.role_name}" => a
+  }
 
 }
 
 
+
 output "debug_assignments" {
-  value = local.assignments
+  value = local.assignments_flat
 }
