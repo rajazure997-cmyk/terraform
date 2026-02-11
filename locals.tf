@@ -1,26 +1,11 @@
-# locals {
-
-#   assignments = var.entra_role_assignments
-
-#   entra_roles_to_activate = distinct([
-#     for a in local.assignments :
-#     a.role_name
-#   ])
-
-#   entra_active = {
-#     for idx, a in local.assignments :
-#     "${a.principal_object_id}-${a.role_name}" => a
-#   }
-
-# }
-
 locals {
 
   assignments_flat = flatten([
-    for p in var.entra_role_assignments : [
-      for r in p.roles : {
-        principal_object_id = p.principal_object_id
-        role_name           = r
+    for user_key, user_data in var.entra_role_assignments : [
+      for role in user_data.roles : {
+        key                 = "${user_key}-${role}"
+        principal_object_id = user_data.principal_object_id
+        role_name           = role
       }
     ]
   ])
@@ -32,11 +17,10 @@ locals {
 
   entra_active = {
     for a in local.assignments_flat :
-    "${a.principal_object_id}-${a.role_name}" => a
+    a.key => a
   }
 
 }
-
 
 
 output "debug_assignments" {

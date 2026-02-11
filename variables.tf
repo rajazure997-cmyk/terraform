@@ -8,14 +8,14 @@
 
 #   default = []
 # }
-
 variable "entra_role_assignments" {
-  description = "Roles mapped per principal"
+  description = "Map of principals and their roles"
 
-  type = list(object({
+  type = map(object({
     principal_object_id = string
     roles               = list(string)
   }))
 
-  default = []
+  default = {}
 }
+
