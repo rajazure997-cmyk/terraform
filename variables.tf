@@ -1,73 +1,141 @@
-# --- Azure Resource Group Variables ---
-
-variable "rgname" {
-    type        = string
-    description = "The name for the Azure Resource Group."
-    default     = "newone-rg2"
-}
+# =================================================
+# BASIC VARIABLES
+# =================================================
+# variable "rgname" {
+#   description = "Azure Resource Group name"
+#   type        = string
+# }
 
 variable "rglocation" {
-    type        = string
-    description = "The Azure region/location for the Resource Group (e.g., eastus, westus2)."
-    default     = "eastus" 
-    
-    validation {
-      # Simple check: Location should not be empty
-      condition     = length(var.rglocation) > 0
-      error_message = "The Resource Group location cannot be empty."
-    }
-}
-
- variable "new_group_display_name" {
+  description = "Azure Resource Group location"
   type        = string
-  description = "The display name for the new Group."
-  default     = "remote_access_users"
 }
 
+# =================================================
+# USER CREATION VARIABLES (Entra ID)
+# =================================================
 variable "new_user_upn" {
-    type        = string
-  description = "The User Principal Name (UPN) for the new user (e.g., user@verifieddomain.onmicrosoft.com)."
-  # IMPORTANT: The default must use your tenant's actual verified domain.
-  default     = "rajazure997_gmail.com#EXT#@rajazure997gmail.onmicrosoft.com"
-  
+  description = "User Principal Name (UPN) for the new Entra ID user"
+  type        = string
 }
 
-# --- Entra ID User Variables ---
+variable "new_user_display_name" {
+  description = "Display name for the new Entra ID user"
+  type        = string
+}
 
-# variable "new_user_upn" {
-#   type        = string
-#   description = "The User Principal Name (UPN) for the new user (e.g., user@verifieddomain.onmicrosoft.com)."
-#   # IMPORTANT: The default must use your tenant's actual verified domain.
-#   default     = "new.user.terraform@rajazure997gmail.onmicrosoft.com"
-# }
+variable "new_user_mail_nickname" {
+  description = "Mail nickname for the new Entra ID user"
+  type        = string
+}
 
-# variable "new_user_display_name" {
-#   type        = string
-#   description = "The display name for the new user."
-#   default     = "Terraform Provisioned User"
-# }
+variable "initial_password" {
+  description = "Initial password for the Entra ID user"
+  type        = string
+  sensitive   = true
+}
 
-# variable "initial_password" {
-#   type        = string
-#   description = "The initial password for the new user."
-#   # The 'sensitive' tag ensures this value is hidden in logs/state.
-#   sensitive   = true 
-  
-#   validation {
-#     # Simple check: Password cannot be too short (Azure password policy is stricter)
-#     condition     = length(var.initial_password) >= 8
-#     error_message = "The initial password must be at least 8 characters long."
-#   }
-# }
+# =================================================
+# GROUP VARIABLES
+# =================================================
+variable "new_group_display_name" {
+  description = "Display name of the Azure AD group"
+  type        = string
+}
 
-# variable "directory_role_name" {
-#   type        = string
-#   description = "The display name of the Microsoft Entra ID Directory Role to assign (e.g., 'Global Reader' or 'User Administrator')."
-#   default     = "Global Reader"
-  
-#   validation {
-#       # This validation ensures the user provides a role name that exists in the locals map in main.tf
-#       condition     = contains(["Global Reader", "User Administrator", "Global Administrator"], var.directory_role_name)
-#       error_message = "The provided directory_role_name is not supported by the local map. Choose from: Global Reader, User Administrator, Global Administrator."
-#     }
-# }
+# =================================================
+# APPLICATION VARIABLES
+# =================================================
+variable "app_display_name" {
+  description = "Display name of the Azure AD application"
+  type        = string
+}
+
+# =================================================
+# APPLICATION OWNERS
+# =================================================
+variable "app_owners" {
+  description = "User Principal Names (UPNs) of application owners"
+  type        = list(string)
+}
+
+# =================================================
+# MICROSOFT GRAPH API PERMISSIONS
+# =================================================
+variable "graph_application_permissions" {
+  description = "Microsoft Graph application permissions (App Roles)"
+  type        = list(string)
+  default     = []
+}
+
+# =================================================
+# ENTRA ID DIRECTORY ROLES
+# =================================================
+variable "entra_roles" {
+  description = "Entra ID directory roles to assign to the user (by display name)"
+  type        = list(string)
+  default     = []
+}
+
+
+variable "policy_name" {
+  type = string
+}
+
+variable "policy_state" {
+  type    = string
+  default = "enabled"
+}
+
+variable "included_users" {
+  type = list(string)
+}
+
+variable "excluded_users" {
+  type    = list(string)
+  default = []
+}
+
+variable "included_groups" {
+  type    = list(string)
+  default = []
+}
+
+variable "cloud_app_ids" {
+  type = list(string)
+}
+
+variable "sign_in_risk_levels" {
+  type    = list(string)
+  default = []
+}
+
+variable "user_risk_levels" {
+  type    = list(string)
+  default = []
+}
+
+variable "device_platforms" {
+  type    = list(string)
+  default = []
+}
+
+variable "include_locations" {
+  type    = list(string)
+  default = []
+}
+
+variable "exclude_locations" {
+  type    = list(string)
+  default = []
+}
+
+variable "grant_mfa" {
+  type    = bool
+  default = true
+}
+
+variable "block_access" {
+  type    = bool
+  default = false
+}

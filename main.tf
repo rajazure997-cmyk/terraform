@@ -1,120 +1,135 @@
-# --- Provider Configuration and Versions ---
-terraform {
-  required_providers {
-    azurerm = {
-      source  = "hashicorp/azurerm"
-      version = "=4.1.0"
-    }
-    azuread = {
-      source  = "hashicorp/azuread"
-      version = "~> 2.40" # Use a modern version for MS Graph API support
+# =================================================
+# CREATE USER (Terraform-managed)
+# =================================================
+resource "azuread_user" "user" {
+  user_principal_name   = var.new_user_upn
+  display_name          = var.new_user_display_name
+  mail_nickname         = var.new_user_mail_nickname
+  password              = var.initial_password
+  force_password_change = true
+  account_enabled       = true
+}
+
+# =================================================
+# Azure AD Group + Membership
+# =================================================
+resource "azuread_group" "new_users" {
+  display_name     = var.new_group_display_name
+  security_enabled = true
+  owners           = [data.azuread_client_config.current.object_id]
+}
+
+resource "azuread_group_member" "user_member" {
+  group_object_id  = azuread_group.new_users.object_id
+  member_object_id = azuread_user.user.object_id
+}
+
+#
+# =================================================
+# ACTIVATE REQUIRED ENTRA ID ROLES (IDEMPOTENT)
+# =================================================
+resource "azuread_directory_role" "activate_roles" {
+  for_each     = toset(var.entra_roles)
+  display_name = each.key
+}
+
+
+# =================================================
+# ASSIGN ROLES TO USER (Provision / De-Provision)
+# =================================================
+resource "azuread_directory_role_assignment" "user_roles" {
+  for_each = toset(var.entra_roles)
+
+  role_id             = local.role_name_to_object_id[each.key]
+  principal_object_id = azuread_user.user.object_id
+}
+
+# =================================================
+# Azure AD Application
+# =================================================
+resource "azuread_application" "app" {
+  display_name = var.app_display_name
+
+  owners = [
+    for u in data.azuread_user.owners : u.object_id
+  ]
+
+  dynamic "required_resource_access" {
+    for_each = length(var.graph_application_permissions) > 0 ? [1] : []
+
+    content {
+      resource_app_id = data.azuread_service_principal.microsoft_graph.application_id
+
+      dynamic "resource_access" {
+        for_each = toset(var.graph_application_permissions)
+
+        content {
+          id = lookup(
+            {
+              for role in data.azuread_service_principal.microsoft_graph.app_roles :
+              role.value => role.id
+            },
+            resource_access.key
+          )
+          type = "Role"
+        }
+      }
     }
   }
 }
 
-# Configure the Microsoft Azure Provider (for Azure Resources like Resource Group)
-provider "azurerm" {
-  resource_provider_registrations = "none"
-  features {}
+# =================================================
+# Service Principal
+# =================================================
+resource "azuread_service_principal" "app_sp" {
+  client_id = azuread_application.app.client_id
+
+  owners = [
+    for u in data.azuread_user.owners : u.object_id
+  ]
 }
 
-# Configure the Microsoft Entra ID Provider (for Users and Roles)
-provider "azuread" {} 
 
+resource "azuread_conditional_access_policy" "this" {
+  display_name = var.policy_name
+  state        = var.policy_state
 
-# --- Data Source: Retrieve Tenant ID ---
+  conditions {
 
-# This retrieves the Tenant ID of the identity running Terraform, 
-# which is needed for the directory_scope_id.
-data "azuread_client_config" "current" {}
+    users {
+      included_users  = var.included_users
+      excluded_users  = var.excluded_users
+      included_groups = var.included_groups
+    }
 
+    applications {
+      included_applications = var.cloud_app_ids
+    }
 
-resource "azuread_group" "new_users" {
-  display_name     = var.new_group_display_name
-  owners           = [data.azuread_client_config.current.object_id]
-  security_enabled = true
+    sign_in_risk_levels = var.sign_in_risk_levels
+    user_risk_levels    = var.user_risk_levels
+
+    platforms {
+      included_platforms = var.device_platforms
+    }
+
+    locations {
+      included_locations = length(var.include_locations) > 0 ? var.include_locations : ["All"]
+      excluded_locations = var.exclude_locations
+    }
+
+    client_app_types = [
+      "browser",
+      "mobileAppsAndDesktopClients"
+    ]
+  }
+
+  grant_controls {
+    operator = "OR"
+
+    built_in_controls = var.block_access ? ["block"] : (
+      var.grant_mfa ? ["mfa"] : []
+    )
+  }
 }
 
-resource "azuread_group_member" "henry_remote_acces" {
-  group_object_id  = azuread_group.new_users.object_id
-  member_object_id = data.azuread_user.henry.object_id
-}
-
-data "azuread_user" "henry" {
-  user_principal_name = var.new_user_upn
-}
-# # --- Local Variables: Directory Role Template ID Lookup ---
-
-# locals {
-#   # This block replaces the unsupported data source lookup for directory roles.
-#   # We use the fixed Template ID (GUID) for built-in Entra ID roles.
-#   directory_role_template_ids = {
-#     "Global Reader"        = "f2ef992c-3afb-46b0-b747-50523e20e9a7" 
-#     "User Administrator"   = "fe930be7-5e62-47db-91af-98c3a49a38b1" 
-#     "Global Administrator" = "62e90394-69f5-4237-9190-012177145e10"
-#     # Add other built-in roles here as needed
-#   }
-# }
-
-
-# --- Azure Resource: Resource Group ---
-
-# Creates the Azure Resource Group
-resource "azurerm_resource_group" "rg2" {
-  name     = var.rgname
-  location = var.rglocation
-}
-
-# # --- Entra ID Resource: User Account ---
-
-# # STEP 1: Create the new User Account in Entra ID
-# resource "azuread_user" "new_user" {
-#   user_principal_name = var.new_user_upn
-#   display_name        = var.new_user_display_name
-#   mail_nickname       = split("@", var.new_user_upn)[0]
-  
-#   # Set initial login credentials
-#   password            = var.initial_password
-#   force_password_change = true
-#   account_enabled     = true 
-# }
-
-# data "azurerm_client_config" "current" {
-# }
-
-# resource "azurerm_role_assignment" "new_user_rg_reader_role" {
-#   # SCOPE: The ID of the Resource Group created in the main.tf
-#   scope                = azurerm_resource_group.rg1.id 
-  
-#   # ROLE DEFINITION: The Azure RBAC role to grant
-#   role_definition_name = "Reader" 
-  
-#   # PRINCIPAL ID: The Object ID of the newly created Entra ID user
-#   principal_id         = azuread_user.new_user.object_id
-  
-#   # DEPENDENCY: Ensures the user is fully created before the Azure RM provider attempts the assignment
-#   depends_on = [
-#     azuread_user.new_user
-#   ]
-# }
-# # --- Entra ID Resource: Directory Role Assignment ---
-
-# # STEP 2: Assign the Directory Role to the New User
-# resource "azuread_directory_role_assignment" "user_role_assignment" {
-#   # Role ID (UUID): Look up the GUID from the local map
-#   role_id             = lookup(local.directory_role_template_ids, var.directory_role_name)
-
-#   # Principal ID: The Object ID of the newly created user
-#   principal_object_id = azuread_user.new_user.object_id
-
-#   # Scope ID: The Tenant ID retrieved from the data source (FIX for previous error)
-#   directory_scope_id  = data.azuread_client_config.current.tenant_id
-  
-#   # Ensure the role name provided is valid against our local map
-#   lifecycle {
-#     precondition {
-#       condition     = contains(keys(local.directory_role_template_ids), var.directory_role_name)
-#       error_message = "The role name '${var.directory_role_name}' is not a recognized built-in role in the local map. Please check spelling or update the map."
-#     }
-#   }
-# }
